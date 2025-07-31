@@ -1,0 +1,95 @@
+body {
+ background-image: url("Background.svg");
+ background-repeat: no-repeat;
+   background-attachment: fixed;
+   background-size: cover;
+   overflow-y: visible;
+   scroll-behavior: smooth;
+}
+
+.MainTitle {
+    position: sticky;
+    display: flex;
+    width: 100%;
+}
+
+.ButtonsContainerBG {
+    background-image: url("BG.svg");
+    background-size: cover;
+    background-position: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: 80%;
+    margin: auto;
+    transition-property: width, padding-top, padding-bottom;
+    transition: width 0.8s ease, padding-top 0.8s ease, padding-bottom 0.8s ease;
+}
+
+.ButtonsContainerBG:hover {
+    transition: width 0.5s ease, padding-top 0.5s ease, padding-bottom 0.5s ease;
+    width: 90%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    
+}
+
+.ButtonsContainer {
+    display: flex;
+    width: 80%;
+    flex-direction: column;       
+    gap: 1rem;
+    table-layout:fixed;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    outline: none;
+    display: flex;
+}
+
+.Button{
+    border: none;
+}
+
+.GameModButton {
+    
+    width: 100%;
+    background: none;
+    outline: none !important;
+    box-shadow: none !important;
+    transition-property: width, background-color;
+    justify-content: center;
+}
+
+.GameModButton:hover {
+    width: 110%;
+
+
+    
+    outline: none !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border: none !important;
+    justify-content: center;
+}
+
+.GameModImage {
+    width: 80%;
+    transition: transform 0.3s ease;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f100; 
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}

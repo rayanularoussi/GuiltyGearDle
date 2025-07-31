@@ -1,0 +1,12 @@
+
+@font-face {
+    font-family: 'ImpactGGST';
+    src: url('../assets/fonts/ImpactStrive.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.MainTitle {
+    font-family: 'ImpactGGST', Impact, Arial, sans-serif;
+    font-size: 4.5em;
+}

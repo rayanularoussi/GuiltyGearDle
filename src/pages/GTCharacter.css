@@ -1,0 +1,77 @@
+
+@font-face {
+    font-family: 'ImpactGGST';
+    src: url('../assets/fonts/ImpactStrive.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.MainTitle {
+    font-family: 'ImpactGGST', Impact, Arial, sans-serif;
+    font-size: 4.5em;
+    width: 100%;
+}
+
+.Instructions { 
+    flex-direction: column;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    background-image: url("BG.svg");
+    background-size: cover;
+    background-position: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: 60%;
+    margin: auto;
+    padding-top: 1%;
+}
+
+.ActualDay {
+    font-family: Impact;    width: 100%;
+}
+
+.InfoButton{
+    width: auto;
+    height: 20%;
+}
+
+.SearchInputGroup {
+  display: flex;
+  align-items: center;
+}
+
+.SearchInput {
+  min-height: 50px;
+  max-width: 150px;
+  padding: 0 1rem;
+  color: #fff;
+  font-size: 15px;
+  border: 3px solid #8b0e0e;
+  border-radius: 6px 0 0 6px;
+  background-color: transparent;
+}
+
+.SearchButton {
+    min-height: 50px;
+    padding: 0 1rem;
+    color: #fff;
+    font-size: 15px;
+    border: 3px solid #8b0e0e;
+    border-radius: 0 6px 6px 0;
+    background-color: #8b0e0e;
+}
+
+.SearchButton:hover {
+    
+    border: 3px solid #8b0e0e;
+        background-color: #9b1010;
+
+}
+
+.SearchButton:focus {
+    border: 3px solid #8b0e0e;
+    outline: #8b0e0e;
+}
