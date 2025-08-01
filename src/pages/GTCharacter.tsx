@@ -1,3 +1,4 @@
+import { GTCharTable } from "../components/GTCharTable";
 import "./GTCharacter.css";
 export function GTCharacter() {
     const date = new Date();
@@ -21,6 +22,8 @@ export function GTCharacter() {
                 </div>
                 <br></br>
             </div>
+            <br></br>
+            <GTCharTable />
 
         </div>
     )
