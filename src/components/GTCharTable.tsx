@@ -14,11 +14,11 @@ type Character = {
     image_url: string;
 };
 
+type FirstRelease = 'Unknown' | 'Pre-Release' | 'Post-Release';
+
 export function GTCharTable() {
     const [fetchError, setFetchError] = useState<string | null>(null);
     const [characters, setCharacters] = useState<Character[]>([]);
-
-
 
     useEffect(() => {
         const fetchCharacters = async () => {
@@ -26,7 +26,7 @@ export function GTCharTable() {
                 .from('characters')
                 .select();
 
-            if(error) {
+            if (error) {
                 setFetchError("Couldn't fetch the characters");
                 setCharacters([]);
                 console.log(error);
@@ -39,14 +39,15 @@ export function GTCharTable() {
         fetchCharacters();
     }, []);
 
-        const characterOfTheDay = characters.find(character => character.character_name === "Sol Badguy");
+    const characterOfTheDay = characters.find(character => character.character_name === "Sol Badguy");
 
     return (
         <div>
             {fetchError && <p>{fetchError}</p>}
+
             <table className="characterTable">
                 <thead>
-                    <tr>
+                    <tr className="no-border">
                         <th>Image</th>
                         <th>Name</th>
                         <th>Gender</th>
@@ -56,6 +57,7 @@ export function GTCharTable() {
                         <th>Faction</th>
                     </tr>
                 </thead>
+                <br></br>
 
                 <tbody>
                     {characters.map((character, idx) => (
@@ -65,7 +67,7 @@ export function GTCharTable() {
                                     <img src={character.image_url} alt={character.character_name} />
                                 </div>
                             </td>
-                            <td className={`squareCell`}>
+                            <td className="squareCell">
                                 <div className={characterOfTheDay?.character_name === character.character_name ? "InfoDisplaySquareRight" : "InfoDisplaySquareFalse"}>
                                     <p>{character.character_name}</p>
                                 </div>
