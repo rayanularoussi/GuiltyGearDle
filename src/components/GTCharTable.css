@@ -37,6 +37,25 @@
     padding: 0;
 }
 
+@keyframes fadeInBlur {
+  0% {
+    opacity: 0;
+    transform: 20px translateY(20px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.animatedRow {
+  animation: fadeInBlur 0.4s ease-out;
+}
+
+
+
 .characterTable thead {
     border: none;
 }
@@ -80,7 +99,7 @@
     background-color: #00fc3f;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
-    font-size: large;
+    font-size: medium;
     font-weight: bold;
     font-style: Impact;
 }
@@ -95,7 +114,7 @@
     background-color: #ff0000;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
-    font-size: large;
+    font-size: medium;
     font-weight: bold;
     font-style: Impact;
 }

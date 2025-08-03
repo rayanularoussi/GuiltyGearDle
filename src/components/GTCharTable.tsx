@@ -1,43 +1,53 @@
+import { useEffect, useState } from 'react';
 import supabase from '../config/supabaseClient';
-import React, { useState, useEffect } from 'react';
 import './GTCharTable.css';
-
-type Gender = 'Male' | 'Female' | 'Non Binary' | 'Unknown';
-
-type Character = {
-    character_name: string;
-    gender: Gender;
-    archetype: string;
-    first_release: string;
-    release_year: number;
-    faction_affil: string;
-    image_url: string;
-};
-
-type FirstRelease = 'Unknown' | 'Pre-Release' | 'Post-Release';
+import type { Character } from '../utils/CharacterStruct';
 
 export function GTCharTable() {
     const [fetchError, setFetchError] = useState<string | null>(null);
     const [characters, setCharacters] = useState<Character[]>([]);
+    const [chosenCharacters, setChosenCharacters] = useState<Character[]>([]);
 
     useEffect(() => {
         const fetchCharacters = async () => {
-            const { data, error } = await supabase
-                .from('characters')
-                .select();
+            const { data, error } = await supabase.from("characters").select();
 
             if (error) {
-                setFetchError("Couldn't fetch the characters");
-                setCharacters([]);
-                console.log(error);
-            }
-            if (data) {
+                setFetchError("Couldn't fetch characters");
+            } else {
                 setCharacters(data);
-                setFetchError(null);
             }
         };
+
         fetchCharacters();
     }, []);
+
+    useEffect(() => {
+        const updateGuessedCharacters = () => {
+            const guessedIds = JSON.parse(localStorage.getItem("chosenCharacters") || "[]");
+
+            const reversedIds = guessedIds.slice().reverse();
+
+
+            const guessed = reversedIds
+                .map((id: number) => characters.find((character) => character.id === id))
+                .filter((c: Character): c is Character => !!c);
+
+            setChosenCharacters(guessed);
+        };
+
+        updateGuessedCharacters();
+
+        const handleCustomEvent = () => {
+            updateGuessedCharacters();
+        };
+
+        window.addEventListener("localStorageUpdated", handleCustomEvent);
+
+        return () => {
+            window.removeEventListener("localStorageUpdated", handleCustomEvent);
+        };
+    }, [characters]);
 
     const characterOfTheDay = characters.find(character => character.character_name === "Sol Badguy");
 
@@ -57,11 +67,14 @@ export function GTCharTable() {
                         <th>Faction</th>
                     </tr>
                 </thead>
-                <br></br>
 
                 <tbody>
-                    {characters.map((character, idx) => (
-                        <tr key={idx} className="characterRow">
+                            {chosenCharacters.map((character) => (
+                            <tr
+                                key={character.id}
+                                className={`characterRow animatedRow`}
+                            >
+
                             <td className="squareCell">
                                 <div className="InfoDisplaySquare">
                                     <img src={character.image_url} alt={character.character_name} />
@@ -77,24 +90,24 @@ export function GTCharTable() {
                                     <p>{character.gender}</p>
                                 </div>
                             </td>
-                            <td className="squareCell cell-red">
+                            <td className="squareCell">
                                 <div className={characterOfTheDay?.archetype === character.archetype ? "InfoDisplaySquareRight" : "InfoDisplaySquareFalse"}>
                                     <p>{character.archetype}</p>
                                 </div>
                             </td>
-                            <td className="squareCell cell-green">
-                                <div className={characterOfTheDay?.first_release === character.first_release ? "InfoDisplaySquareRight" : "InfoDisplaySquareFalse"}>
-                                    <p>{character.first_release}</p>
+                            <td className="squareCell">
+                                <div className={characterOfTheDay?.first_release_game === character.first_release_game ? "InfoDisplaySquareRight" : "InfoDisplaySquareFalse"}>
+                                    <p>{character.first_release_game}</p>
                                 </div>
                             </td>
-                            <td className="squareCell cell-red">
+                            <td className="squareCell">
                                 <div className={characterOfTheDay?.release_year === character.release_year ? "InfoDisplaySquareRight" : "InfoDisplaySquareFalse"}>
                                     <p>{character.release_year}</p>
                                 </div>
                             </td>
-                            <td className="squareCell cell-green">
-                                <div className={characterOfTheDay?.faction_affil === character.faction_affil ? "InfoDisplaySquareRight" : "InfoDisplaySquareFalse"}>
-                                    <p>{character.faction_affil}</p>
+                            <td className="squareCell">
+                                <div className={characterOfTheDay?.faction_affiliation === character.faction_affiliation ? "InfoDisplaySquareRight" : "InfoDisplaySquareFalse"}>
+                                    <p>{character.faction_affiliation}</p>
                                 </div>
                             </td>
                         </tr>
