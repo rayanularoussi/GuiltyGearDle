@@ -52,6 +52,7 @@
     background-color: transparent;
 }
 
+
 .SearchButton {
     min-height: 50px;
     padding: 0 1rem;
@@ -124,15 +125,12 @@
     list-style: none;
 }
 
-
 .characterButtonList li {
     display: flex;
     align-items: center;
     margin: 0;
     padding: 0;
 }
-
-
 
 .characterButton {
     width: 100%;
@@ -148,7 +146,6 @@
     color: white;
     gap: 0.8rem;
 }
-
 
 .characterButton:hover {
     background-color: #3c3c3d;

@@ -60,6 +60,7 @@ body {
     box-shadow: none !important;
     transition-property: width, background-color;
     justify-content: center;
+    display: flex;
 }
 
 .GameModButton:hover {
@@ -76,6 +77,7 @@ body {
 .GameModImage {
     width: 80%;
     transition: transform 0.3s ease;
+    
 }
 
 ::-webkit-scrollbar {

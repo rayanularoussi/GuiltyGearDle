@@ -84,7 +84,11 @@ export function GTCharTable() {
     }, [characters]);
 
     if (isLoading || characters.length === 0) {
-        return <div>Loading...</div>;
+        return ( 
+            <div>
+                <h2>Loading...</h2>
+            </div>
+            );
     }
 
     return (
