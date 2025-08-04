@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import supabase from '../config/supabaseClient';
 import './GTCharTable.css';
 import type { Character } from '../utils/CharacterStruct';
@@ -7,6 +7,9 @@ export function GTCharTable() {
     const [fetchError, setFetchError] = useState<string | null>(null);
     const [characters, setCharacters] = useState<Character[]>([]);
     const [chosenCharacters, setChosenCharacters] = useState<Character[]>([]);
+    const [characterOfTheDay, setCharacterOfTheDay] = useState<Character | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const hasFetchedCharacterOfTheDay = useRef(false);
 
     useEffect(() => {
         const fetchCharacters = async () => {
@@ -24,10 +27,12 @@ export function GTCharTable() {
 
     useEffect(() => {
         const updateGuessedCharacters = () => {
+            if(new Date().getDay() !== new Date(localStorage.getItem("lastUpdate") || "").getDay()) {
+                localStorage.removeItem("chosenCharacters");
+            }
+            localStorage.setItem("lastUpdate", new Date().toISOString());
             const guessedIds = JSON.parse(localStorage.getItem("chosenCharacters") || "[]");
-
             const reversedIds = guessedIds.slice().reverse();
-
 
             const guessed = reversedIds
                 .map((id: number) => characters.find((character) => character.id === id))
@@ -49,7 +54,38 @@ export function GTCharTable() {
         };
     }, [characters]);
 
-    const characterOfTheDay = characters.find(character => character.character_name === "Sol Badguy");
+    useEffect(() => {
+    const fetchCharacterOfTheDay = async () => {
+        if (characterOfTheDay) return;
+        setIsLoading(true);
+        try {
+            const { data, error } = await supabase.functions.invoke('daily-character-selector');
+            
+            if (error) {
+                console.error("Error fetching character of the day:", error);
+                setCharacterOfTheDay(null);
+            } else {
+                console.log('Fetched Character:', data);
+                setCharacterOfTheDay(data);
+            }
+            } catch (err) {
+                console.error("Unexpected error:", err);
+                setCharacterOfTheDay(null);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        if (characters.length > 0 && !hasFetchedCharacterOfTheDay.current) {
+            hasFetchedCharacterOfTheDay.current = true;
+            fetchCharacterOfTheDay();
+        }
+        console.log(characterOfTheDay?.character_name)
+    }, [characters]);
+
+    if (isLoading || characters.length === 0) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div>
@@ -69,12 +105,11 @@ export function GTCharTable() {
                 </thead>
 
                 <tbody>
-                            {chosenCharacters.map((character) => (
-                            <tr
-                                key={character.id}
-                                className={`characterRow animatedRow`}
-                            >
-
+                    {chosenCharacters.map((character) => (
+                        <tr
+                            key={character.id}
+                            className={`characterRow animatedRow`}
+                        >
                             <td className="squareCell">
                                 <div className="InfoDisplaySquare">
                                     <img src={character.image_url} alt={character.character_name} />
